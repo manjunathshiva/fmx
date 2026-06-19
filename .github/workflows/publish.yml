@@ -6,7 +6,8 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    # Pure-Python build — no need for macOS (apple-fm-sdk isn't built here).
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - name: Install uv
