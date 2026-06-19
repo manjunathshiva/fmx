@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# venvs
+.venv/
+venv/
+
+# tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# saved chat sessions (local scratch)
+*.session.json
+
+# OS
+.DS_Store

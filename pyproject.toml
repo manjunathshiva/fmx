@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fmx"
+version = "0.1.0"
+description = "A friendly CLI for Apple's on-device Foundation Model — fm chat/respond/schema on macOS 26, today."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Manjunath Janardhan", email = "manjunath.shiva@gmail.com" }]
+keywords = ["apple", "foundation-models", "apple-intelligence", "llm", "cli", "on-device"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "apple-fm-sdk>=0.2.0",
+    "typer>=0.12",
+    "rich>=13",
+]
+
+[project.urls]
+Homepage = "https://github.com/manjunathshiva/fmx"
+Issues = "https://github.com/manjunathshiva/fmx/issues"
+
+[project.scripts]
+fmx = "fmx.cli:app"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fmx"]
+
+[tool.pytest.ini_options]
+markers = [
+    "require_model: test needs an available on-device Foundation Model (skipped otherwise)",
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+# B008: calling typer.Argument/Option in defaults is the standard Typer pattern.
+ignore = ["B008"]
