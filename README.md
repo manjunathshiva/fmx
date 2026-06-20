@@ -111,6 +111,16 @@ uv run pytest          # model tests auto-skip if Apple Intelligence is unavaila
 uv run ruff check .
 ```
 
+## Contributing
+
+Contributions are welcome! See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the dev
+setup, the SDK-free-vs-on-device test split, and the review rules — every PR
+needs passing `lint-and-test` + CodeQL checks and one approving review. A
+[pull-request template](.github/PULL_REQUEST_TEMPLATE.md) is filled in for you.
+
+Found a security issue? Please don't open a public issue — follow the
+[security policy](SECURITY.md) instead.
+
 ## License
 
 MIT. Built on Apple's `apple-fm-sdk` (Apache-2.0). Not affiliated with Apple.
