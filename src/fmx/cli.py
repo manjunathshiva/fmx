@@ -12,6 +12,28 @@ from rich.console import Console
 
 from . import __version__, chat, core, respond, schema
 
+
+def _force_utf8_output() -> None:
+    """Make stdout/stderr emit UTF-8 regardless of the terminal's locale.
+
+    Model responses and the chat UI contain non-ASCII characters (em dashes,
+    smart quotes, the `❯` prompt). If the terminal is set to a legacy codec
+    like latin-1, Python's default streams raise UnicodeEncodeError mid-output.
+    Reconfiguring to UTF-8 with `errors="replace"` keeps `fmx` working without
+    asking the user to change their Terminal profile or set PYTHONIOENCODING.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is None:  # e.g. a stream replaced by a test harness
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="replace")
+        except (ValueError, OSError):  # already detached / not reconfigurable
+            pass
+
+
+_force_utf8_output()
+
 app = typer.Typer(
     add_completion=False,
     no_args_is_help=True,

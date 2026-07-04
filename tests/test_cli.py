@@ -1,6 +1,7 @@
 """CLI wiring tests. Skipped if apple-fm-sdk can't be imported (e.g. non-macOS-26 CI)."""
 
 import json
+import sys
 
 import pytest
 
@@ -37,3 +38,16 @@ def test_no_args_shows_help():
     result = runner.invoke(cli.app, [])
     # no_args_is_help -> Typer exits 0 (or 2 on older versions) and prints usage
     assert "chat" in result.stdout and "respond" in result.stdout
+
+
+def test_force_utf8_survives_latin1_stream(monkeypatch):
+    """A latin-1 terminal must not crash on the em dash / ❯ that fmx prints."""
+    import io
+
+    buf = io.BytesIO()
+    monkeypatch.setattr("sys.stdout", io.TextIOWrapper(buf, encoding="latin-1", newline=""))
+    cli._force_utf8_output()
+    # These characters raise UnicodeEncodeError on latin-1 before the fix.
+    sys.stdout.write("fmx chat — Apple on-device Foundation Model ❯\n")
+    sys.stdout.flush()
+    assert "—" in buf.getvalue().decode("utf-8")

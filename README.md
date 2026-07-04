@@ -41,6 +41,18 @@ uv tool install fmx
 pipx install fmx
 ```
 
+Both install the `fmx` command into your user bin directory (`~/.local/bin`).
+If your shell then reports `zsh: command not found: fmx`, that directory isn't
+on your `PATH` yet — fix it once and open a new terminal:
+
+```bash
+uv tool update-shell     # if you installed with uv
+# or
+pipx ensurepath          # if you installed with pipx
+```
+
+Verify with `fmx --version`.
+
 ## Usage
 
 ### `fmx chat` — interactive
